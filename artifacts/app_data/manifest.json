@@ -1,0 +1,52 @@
+{
+  "best_temporal_id": "B1",
+  "models": {
+    "b1": {
+      "experiment": "B1",
+      "model_kind": "xgb",
+      "joblib": "artifacts/models/B1_xgb.joblib"
+    },
+    "b2": {
+      "experiment": "B2",
+      "model_kind": "rf",
+      "joblib": "artifacts/models/B2_rf.joblib"
+    }
+  },
+  "static_cols": [
+    "recency_days",
+    "frequency",
+    "monetary"
+  ],
+  "temporal_cols": [
+    "freq_trend",
+    "monetary_trend",
+    "recency_trend",
+    "consec_inactive_months",
+    "gap_mean",
+    "gap_std",
+    "freq_last3_vs_first3",
+    "monetary_cv",
+    "active_month_ratio"
+  ],
+  "all_cols": [
+    "recency_days",
+    "frequency",
+    "monetary",
+    "freq_trend",
+    "monetary_trend",
+    "recency_trend",
+    "consec_inactive_months",
+    "gap_mean",
+    "gap_std",
+    "freq_last3_vs_first3",
+    "monetary_cv",
+    "active_month_ratio"
+  ],
+  "n_customers": 3043,
+  "n_test": 609,
+  "class_counts_full": {
+    "0": 2350,
+    "1": 634,
+    "2": 59
+  }
+}

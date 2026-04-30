@@ -1,0 +1,7 @@
+study,method,accuracy,f1,auc,notes
+Zaghloul (2025),RFM + K-Means + DNN,,,,Binary churn
+De Alwis & Ekanayake (2025),XAI + RFM,,,,Binary churn
+Taylor et al. (2026),ML ensemble,,,,Binary churn
+This study (Static RFM),XGB,0.7389162561576355,0.5417867435158501,0.7908617786621766,Binary collapsed
+This study (Temporal RFM),XGB,0.7323481116584565,0.4584717607973422,0.7371575080361242,Binary collapsed
+This study (Temporal RFM),XGB (3-class),0.7307060755336617,0.7396812760840321,,3-class (novel)

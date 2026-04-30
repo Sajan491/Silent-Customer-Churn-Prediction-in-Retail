@@ -1,0 +1,114 @@
+[
+  {
+    "experiment": "A1",
+    "feature_set": "static",
+    "model": "xgb",
+    "best_cv_f1_weighted": 0.7601594642859257,
+    "test_accuracy": 0.7569786535303776,
+    "test_f1_weighted": 0.7605405853223122,
+    "test_f1_macro": 0.4751401482859283,
+    "best_params": {
+      "subsample": 0.7,
+      "n_estimators": 300,
+      "min_child_weight": 1,
+      "max_depth": 3,
+      "learning_rate": 0.1,
+      "colsample_bytree": 1.0
+    },
+    "joblib_path": "artifacts/models/A1_xgb.joblib",
+    "native_path": "artifacts/models/A1_xgb.json",
+    "n_features": 3
+  },
+  {
+    "experiment": "A2",
+    "feature_set": "static",
+    "model": "rf",
+    "best_cv_f1_weighted": 0.7648677000667702,
+    "test_accuracy": 0.7619047619047619,
+    "test_f1_weighted": 0.7606189324939977,
+    "test_f1_macro": 0.4942878233482442,
+    "best_params": {
+      "n_estimators": 200,
+      "min_samples_split": 2,
+      "min_samples_leaf": 2,
+      "max_features": "sqrt",
+      "max_depth": null
+    },
+    "joblib_path": "artifacts/models/A2_rf.joblib",
+    "native_path": null,
+    "n_features": 3
+  },
+  {
+    "experiment": "A3",
+    "feature_set": "static",
+    "model": "lr",
+    "best_cv_f1_weighted": 0.5405664618505834,
+    "test_accuracy": 0.7520525451559934,
+    "test_f1_weighted": 0.7163776205830846,
+    "test_f1_macro": 0.37927413832458345,
+    "best_params": {
+      "penalty": "l2",
+      "class_weight": null,
+      "C": 5.0
+    },
+    "joblib_path": "artifacts/models/A3_lr.joblib",
+    "native_path": null,
+    "n_features": 3
+  },
+  {
+    "experiment": "B1",
+    "feature_set": "temporal",
+    "model": "xgb",
+    "best_cv_f1_weighted": 0.8067392827817095,
+    "test_accuracy": 0.7684729064039408,
+    "test_f1_weighted": 0.7624906810024109,
+    "test_f1_macro": 0.5127850708119873,
+    "best_params": {
+      "subsample": 0.85,
+      "n_estimators": 500,
+      "min_child_weight": 1,
+      "max_depth": 5,
+      "learning_rate": 0.1,
+      "colsample_bytree": 0.7
+    },
+    "joblib_path": "artifacts/models/B1_xgb.joblib",
+    "native_path": "artifacts/models/B1_xgb.json",
+    "n_features": 9
+  },
+  {
+    "experiment": "B2",
+    "feature_set": "temporal",
+    "model": "rf",
+    "best_cv_f1_weighted": 0.8055108445860014,
+    "test_accuracy": 0.7389162561576355,
+    "test_f1_weighted": 0.7359286617620757,
+    "test_f1_macro": 0.4846857538188818,
+    "best_params": {
+      "n_estimators": 200,
+      "min_samples_split": 2,
+      "min_samples_leaf": 2,
+      "max_features": "sqrt",
+      "max_depth": null
+    },
+    "joblib_path": "artifacts/models/B2_rf.joblib",
+    "native_path": null,
+    "n_features": 9
+  },
+  {
+    "experiment": "B3",
+    "feature_set": "temporal",
+    "model": "lr",
+    "best_cv_f1_weighted": 0.6171923654955658,
+    "test_accuracy": 0.7438423645320197,
+    "test_f1_weighted": 0.7305262542225341,
+    "test_f1_macro": 0.4992522420108627,
+    "best_params": {
+      "penalty": "l2",
+      "class_weight": null,
+      "C": 5.0
+    },
+    "joblib_path": "artifacts/models/B3_lr.joblib",
+    "native_path": null,
+    "n_features": 9
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "all": [
+    "recency_days",
+    "frequency",
+    "monetary",
+    "freq_trend",
+    "monetary_trend",
+    "recency_trend",
+    "consec_inactive_months",
+    "gap_mean",
+    "gap_std",
+    "freq_last3_vs_first3",
+    "monetary_cv",
+    "active_month_ratio"
+  ],
+  "static": [
+    "recency_days",
+    "frequency",
+    "monetary"
+  ],
+  "temporal": [
+    "freq_trend",
+    "monetary_trend",
+    "recency_trend",
+    "consec_inactive_months",
+    "gap_mean",
+    "gap_std",
+    "freq_last3_vs_first3",
+    "monetary_cv",
+    "active_month_ratio"
+  ]
+}
