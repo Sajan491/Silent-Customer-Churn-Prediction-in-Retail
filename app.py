@@ -5,6 +5,8 @@ Two pages:
   1. Risk Overview        -- portfolio KPIs and a top-50 watchlist.
   2. Customer Drill-Down  -- per-customer card + trajectory + SHAP waterfall.
 
+Uses the recommended Temporal XGBoost (B1) model throughout.
+
 Usage:
     streamlit run app.py
 """
@@ -20,7 +22,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 import shap
 import streamlit as st
@@ -182,20 +183,17 @@ def load_panel() -> pd.DataFrame:
 
 @st.cache_resource(show_spinner=False)
 def load_model_bundle() -> dict:
-    """Load scaler, both temporal models, and their SHAP explainers."""
+    """Load scaler, the recommended temporal model (B1), and its SHAP explainer."""
     manifest = load_manifest()
     cols     = json.loads((MODELS_DIR / "feature_columns.json").read_text(encoding="utf-8"))
     scaler   = joblib.load(MODELS_DIR / "scaler.joblib")
     b1       = joblib.load(ROOT / manifest["models"]["b1"]["joblib"])
-    b2       = joblib.load(ROOT / manifest["models"]["b2"]["joblib"])
     return {
-        "manifest":  manifest,
-        "cols":      cols,
-        "scaler":    scaler,
-        "b1":        b1,
-        "b2":        b2,
+        "manifest":     manifest,
+        "cols":         cols,
+        "scaler":       scaler,
+        "b1":           b1,
         "explainer_b1": shap.TreeExplainer(b1),
-        "explainer_b2": shap.TreeExplainer(b2),
     }
 
 
@@ -319,7 +317,7 @@ def page_overview(features: pd.DataFrame, model_id: str) -> None:
         st.plotly_chart(fig, use_container_width=True)
 
     with right:
-        st.subheader("Predicted vs. actual (selected model)")
+        st.subheader("Predicted vs. actual")
         cm = pd.crosstab(
             features["label_3class"].map(CLASS_NAMES),
             features[pred_col].map(CLASS_NAMES),
@@ -384,21 +382,18 @@ def page_overview(features: pd.DataFrame, model_id: str) -> None:
     )
 
     st.caption(
-        "P(silent churn) is the model's predicted probability for class 2. "
-        "Use the sidebar to switch between B1 (Temporal XGBoost) and B2 "
-        "(Temporal Random Forest)."
+        "P(silent churn) is the predicted probability for class 2 from the "
+        "Temporal XGBoost (B1) model."
     )
 
     st.divider()
     st.subheader("Global Feature Importance (SHAP)")
-    st.caption("How the model makes decisions across the entire customer portfolio.")
-    col_a, col_b = st.columns(2)
-    with col_a:
-        if (ROOT / "images" / "shap_summary_bar.png").exists():
-            st.image(str(ROOT / "images" / "shap_summary_bar.png"), use_container_width=True)
-    with col_b:
-        if (ROOT / "images" / "shap_summary_dot.png").exists():
-            st.image(str(ROOT / "images" / "shap_summary_dot.png"), use_container_width=True)
+    st.caption("Which features drive the silent-churn predictions across the customer portfolio.")
+    bar_path = ROOT / "images" / "shap_summary_bar.png"
+    if bar_path.exists():
+        col_a, _ = st.columns([2, 1])
+        with col_a:
+            st.image(str(bar_path), use_container_width=True)
 
 
 # ----------------------------------------------------------------------
@@ -585,26 +580,30 @@ def main() -> None:
         index=0,
     )
 
-    model_label = st.sidebar.radio(
-        "Model",
-        ["B1 — Temporal XGBoost", "B2 — Temporal Random Forest"],
-        index=0,
+    # The app uses a single recommended model: Temporal XGBoost (B1).
+    model_id = "b1"
+
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### Model")
+    st.sidebar.markdown(
+        "**Temporal XGBoost (B1)**  \n"
+        "<span style='color:#64748b; font-size:0.85rem;'>"
+        "Best weighted F1 among all six experiments. "
+        "Trained on 9 temporal trajectory features."
+        "</span>",
+        unsafe_allow_html=True,
     )
-    model_id = "b1" if model_label.startswith("B1") else "b2"
 
     st.sidebar.markdown("---")
     st.sidebar.markdown("### Cohort")
     s1, s2 = st.sidebar.columns(2)
     s1.metric("Customers", f"{bundle['manifest']['n_customers']:,}")
     s2.metric("Test set", f"{bundle['manifest']['n_test']:,}")
-    st.sidebar.caption(
-        f"**Best temporal model (F1w):** {bundle['manifest']['best_temporal_id'].upper()}"
-    )
 
     st.sidebar.markdown("---")
     st.sidebar.markdown(
         "<div style='font-size: 0.8rem; color: #64748b;'>"
-        "Built with Streamlit • Models: XGBoost & Random Forest • "
+        "Built with Streamlit • Model: XGBoost • "
         "Explanations: SHAP"
         "</div>",
         unsafe_allow_html=True,
